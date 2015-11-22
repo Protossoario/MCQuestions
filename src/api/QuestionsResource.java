@@ -4,7 +4,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -18,7 +20,7 @@ public class QuestionsResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String get() {
+	public String getAll() {
 		List<Question> res;
 		QuestionSQL sql = new QuestionSQL();
 		try {
@@ -45,7 +47,7 @@ public class QuestionsResource {
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String get(@PathParam("id") int id) {
+	public String getWithId(@PathParam("id") int id) {
 		QuestionSQL sql = new QuestionSQL();
 		try {
 			Question q = sql.getQuestionWithId(id);
@@ -59,5 +61,11 @@ public class QuestionsResource {
 			e.printStackTrace();
 			return "";
 		}
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void submitJSON(Question q) {
+		
 	}
 }

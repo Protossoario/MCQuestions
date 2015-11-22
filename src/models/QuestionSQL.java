@@ -129,4 +129,27 @@ public class QuestionSQL {
 		}
 		return null;
 	}
+	
+	public List<String> getAllCategories() {
+		List<String> res = new ArrayList<String>();
+		
+		if (! initConnection()) {
+			return res;
+		}
+		
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT DISTINCT name FROM question_category");
+			
+			while (rs.next()) {
+				res.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			System.out.println("Error fetching categories from the database.");
+			e.printStackTrace();
+		}
+		
+		closeConnection();
+		return res;
+	}
 }

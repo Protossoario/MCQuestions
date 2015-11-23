@@ -1,7 +1,11 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Answer;
+import models.Question;
 import models.QuestionSQL;
 
 /**
@@ -18,20 +24,21 @@ import models.QuestionSQL;
 @WebServlet("/addQuestion")
 public class QuestionForm extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private QuestionSQL sql;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public QuestionForm() {
         super();
-        // TODO Auto-generated constructor stub
+        this.sql = new QuestionSQL();
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		QuestionSQL sql = new QuestionSQL();
 		List<String> categories = sql.getAllCategories();
 		request.setAttribute("categories", categories);
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/questionForm.jsp");
@@ -42,25 +49,28 @@ public class QuestionForm extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String[] answers = request.getParameterValues("answers");
-		String[] isCorrect = request.getParameterValues("isCorrect");
-		System.out.println("Answers:");
-		int it = 0;
-		for (String a : answers) {
-			System.out.println("[" + it + "]=" + a);
-			it++;
+		Set<String> categories = new TreeSet<String>();
+		StringTokenizer st = new StringTokenizer(request.getParameter("categories"), ", ");
+		while (st.hasMoreTokens()) {
+			categories.add(st.nextToken());
 		}
-		it = 0;
-		System.out.println("Correct answers: ");
-		for (String c : isCorrect) {
-			System.out.print(c);
-			it++;
-			if (it < isCorrect.length) {
-				System.out.print(", ");
-			}
+		
+		List<Answer> answers = new ArrayList<Answer>();
+		for (String a : request.getParameterValues("answers")) {
+			answers.add(new Answer(a));
 		}
-		System.out.println();
-		System.out.println("Question: " + request.getParameter("questionText"));
+		for (String correctIndex : request.getParameterValues("isCorrect")) {
+			int correctInd = Integer.parseInt(correctIndex);
+			answers.get(correctInd).setCorrect(true);
+		}
+		
+		Question q = new Question(request.getParameter("questionText"), answers, categories);
+		if (this.sql.insertQuestion(q)) {
+			request.setAttribute("success", true);
+		} else {
+			request.setAttribute("success", false);
+		}
+		
 		doGet(request, response);
 	}
 

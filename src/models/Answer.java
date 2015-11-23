@@ -5,6 +5,18 @@ public class Answer {
 	private String text;
 	private boolean correct;
 	
+	public Answer() {
+		this.id = -1;
+		this.text = "";
+		this.correct = false;
+	}
+	
+	public Answer(String text) {
+		this.id = -1;
+		this.text = text;
+		this.correct = false;
+	}
+	
 	public int getId() {
 		return id;
 	}

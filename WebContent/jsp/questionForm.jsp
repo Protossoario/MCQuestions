@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -112,6 +113,16 @@ div.input-group-answer:not(:first-child) {
 		<h3><i class="glyphicon glyphicon-th-list"></i>&nbsp;Add a new question</h3>
 	</div>
 	<div class="container">
+		<c:if test="${ success }">
+			<div class="alert alert-success" role="alert">
+				<strong>Success!</strong> A new question has been added to the database.
+			</div>
+		</c:if>
+		<c:if test="${ not empty success && not success }">
+			<div class="alert alert-danger" role="alert">
+				<strong>Error!</strong> Unfortunately, the question could not be saved. Please, try again.
+			</div>
+		</c:if>
 		<form class="form-horizontal col-sm-11" method="POST">
 			<div class="form-group">
 				<label for="questionText" class="col-sm-2 control-label">Question Text:</label>

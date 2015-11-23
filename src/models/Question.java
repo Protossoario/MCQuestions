@@ -1,13 +1,29 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Question {
 	private int id;
 	private String text;
 	private List<Answer> answers;
 	private Set<String> categories;
+	
+	public Question() {
+		this.id = -1;
+		this.text = "";
+		this.answers = new ArrayList<Answer>();
+		this.categories = new TreeSet<String>();
+	}
+	
+	public Question(String text, List<Answer> answers, Set<String> categories) {
+		this.id = -1;
+		this.text = text;
+		this.answers = answers;
+		this.categories = categories;
+	}
 	
 	public int getId() {
 		return id;

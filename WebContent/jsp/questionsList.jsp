@@ -48,6 +48,9 @@
 							</tr>
 						</c:forEach>
 					</table>
+					<div class="panel-footer">
+						${ question.getCategories() }
+					</div>
 				</div>
 			</div>
 			<c:if test="${ questionLoop.index % 4 == 3 }">

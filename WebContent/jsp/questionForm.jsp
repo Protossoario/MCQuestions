@@ -44,10 +44,11 @@ var removeAnswer = function(event) {
 var answers = 1;
 
 $(document).ready(function() {
-	$answerTemplate = $("#answerTemplate");
+	$answerTemplate = $(".input-group-answer");
 	$answerTemplate.find("button").click(removeAnswer);
-	$answerTemplate.find("input[type=checkbox]").val(0);
-	$answerTemplate.removeAttr("id");
+	$answerTemplate = $answerTemplate.first();
+	//$answerTemplate.find("input[type=checkbox]").val(0);
+	//$answerTemplate.removeAttr("id");
 	console.log($answerTemplate);
 	
 	$("#addAnswerBttn").click(function() {
@@ -56,6 +57,7 @@ $(document).ready(function() {
 		templateClone.addClass("col-sm-offset-2").appendTo("#answerContainer");
 		templateClone.find("button").click(removeAnswer);
 		templateClone.find(".input-answer").val("");
+		templateClone.find("input[type=checkbox]").prop("checked", false);
 		
 		updateAnswerPlaceholders();
 	});
@@ -113,21 +115,21 @@ div.input-group-answer:not(:first-child) {
 		<h3><i class="glyphicon glyphicon-th-list"></i>&nbsp;Add a new question</h3>
 	</div>
 	<div class="container">
-		<c:if test="${ success }">
+		<c:if test="${ requestScope.success }">
 			<div class="alert alert-success" role="alert">
 				<strong>Success!</strong> A new question has been added to the database.
 			</div>
 		</c:if>
-		<c:if test="${ not empty success && not success }">
+		<c:if test="${ not empty requestScope.success && not requestScope.success }">
 			<div class="alert alert-danger" role="alert">
-				<strong>Error!</strong> Unfortunately, the question could not be saved. Please, try again.
+				<strong>Error!</strong> ${ requestScope.message }
 			</div>
 		</c:if>
 		<form class="form-horizontal col-sm-11" method="POST">
 			<div class="form-group">
 				<label for="questionText" class="col-sm-2 control-label">Question Text:</label>
 				<div class="col-sm-10 input-group">
-					<input class="form-control" type="text" name="questionText" id="questionText" placeholder="Type the question text as it should appear to students" />
+					<input class="form-control" type="text" name="questionText" id="questionText" value="${ param.questionText }" placeholder="Type the question text as it should appear to students" />
 				</div>
 			</div>
 			<div class="form-group">
@@ -136,21 +138,36 @@ div.input-group-answer:not(:first-child) {
 				</div>
 				<label for="answers" class="col-sm-2 control-label">Answers:</label>
 				<div id="answerContainer">
-					<div class="input-group input-group-answer col-sm-10" id="answerTemplate">
-						<span class="input-group-addon">
-							<input type="checkbox" aria-label="Correct answer?" name="isCorrect">
-						</span>
-						<input class="form-control input-answer" type="text" name="answers" placeholder="Answer #1" />
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="button"><small><i class="glyphicon glyphicon-remove"></i></small> Remove</button>
-						</span>
-					</div>
+					<c:if test="${ not empty requestScope.answers }">
+						<c:forEach var="answer" items="${ requestScope.answers }" varStatus="loopStatus">
+							<div class="input-group input-group-answer col-sm-10 ${ loopStatus.index > 0 ? "col-sm-offset-2" : "" }">
+								<span class="input-group-addon">
+									<input type="checkbox" aria-label="Correct answer?" name="isCorrect" value="${ loopStatus.index }" ${ answer.isCorrect() ? "checked" : "" }>
+								</span>
+								<input class="form-control input-answer" type="text" name="answers" value="${ answer.getText() }" placeholder="Answer #${ loopStatus.count }" />
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button"><small><i class="glyphicon glyphicon-remove"></i></small> Remove</button>
+								</span>
+							</div>
+						</c:forEach>
+					</c:if>
+					<c:if test="${ empty requestScope.answers }">
+						<div class="input-group input-group-answer col-sm-10">
+							<span class="input-group-addon">
+								<input type="checkbox" aria-label="Correct answer?" name="isCorrect">
+							</span>
+							<input class="form-control input-answer" type="text" name="answers" placeholder="Answer #1" />
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button"><small><i class="glyphicon glyphicon-remove"></i></small> Remove</button>
+							</span>
+						</div>
+					</c:if>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="categories" class="col-sm-2 control-label">Categories:</label>
 				<div class="col-sm-10 input-group">
-					<input class="form-control" type="text" name="categories" id="categories" placeholder="Type the categories separated by commas" />
+					<input class="form-control" type="text" name="categories" id="categories" value="${ param.categories }" placeholder="Type the categories separated by commas" />
 				</div>
 			</div>
 			<hr class="col-sm-10 col-sm-offset-2">

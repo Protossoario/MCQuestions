@@ -59,17 +59,28 @@ public class QuestionForm extends HttpServlet {
 		for (String a : request.getParameterValues("answers")) {
 			answers.add(new Answer(a));
 		}
-		for (String correctIndex : request.getParameterValues("isCorrect")) {
-			int correctInd = Integer.parseInt(correctIndex);
-			answers.get(correctInd).setCorrect(true);
+		if (request.getParameterValues("isCorrect") != null) {
+			for (String correctIndex : request.getParameterValues("isCorrect")) {
+				int correctInd = Integer.parseInt(correctIndex);
+				answers.get(correctInd).setCorrect(true);
+			}
 		}
 		
 		Question q = new Question(request.getParameter("questionText"), answers, categories);
-		if (this.sql.insertQuestion(q)) {
-			request.setAttribute("success", true);
+		
+		if (q.validate()) {
+			if (this.sql.insertQuestion(q)) {
+				request.setAttribute("success", true);
+			} else {
+				request.setAttribute("success", false);
+				request.setAttribute("message", "Unfortunately, the question could not be saved to the database. Please, try again.");
+			}
 		} else {
 			request.setAttribute("success", false);
+			request.setAttribute("message", "Sorry, please make sure all answers and the question text are <strong>not empty</strong>, and that there's <strong>at least one right answer.</strong>");
 		}
+		
+		request.setAttribute("answers", answers);
 		
 		doGet(request, response);
 	}

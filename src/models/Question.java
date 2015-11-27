@@ -85,4 +85,22 @@ public class Question {
 		
 		return json.toString();
 	}
+	
+	public boolean validate() {
+		if (this.text.trim() == "") {
+			return false;
+		}
+		
+		boolean hasRightAnswer = false;
+		for (Answer a : this.answers) {
+			if (a.getText().trim() == "") {
+				return false;
+			}
+			if (a.isCorrect()) {
+				hasRightAnswer = true;
+			}
+		}
+		
+		return hasRightAnswer;
+	}
 }

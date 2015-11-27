@@ -112,7 +112,10 @@ div.input-group-answer:not(:first-child) {
 <body>
 <div class="container">
 	<div class="page-header">
-		<h3><i class="glyphicon glyphicon-th-list"></i>&nbsp;Add a new question</h3>
+		<h3>
+			<i class="glyphicon glyphicon-th-list"></i>&nbsp;Add a new question
+			<span class="pull-right small"><a href="/MCQuestions/questions"><i class="glyphicon glyphicon-chevron-left"></i>&nbsp;Question list</a></span>
+		</h3>
 	</div>
 	<div class="container">
 		<c:if test="${ requestScope.success }">

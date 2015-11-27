@@ -22,7 +22,7 @@ import models.QuestionSQL;
  * Servlet implementation class QuestionsServlet
  */
 @WebServlet("/addQuestion")
-public class QuestionForm extends HttpServlet {
+public class AddQuestion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private QuestionSQL sql;
@@ -30,7 +30,7 @@ public class QuestionForm extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QuestionForm() {
+    public AddQuestion() {
         super();
         this.sql = new QuestionSQL();
     }

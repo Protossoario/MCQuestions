@@ -25,6 +25,13 @@ public class Question {
 		this.categories = categories;
 	}
 	
+	public Question(int id, String text, List<Answer> answers, Set<String> categories) {
+		this.id = id;
+		this.text = text;
+		this.answers = answers;
+		this.categories = categories;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -64,32 +71,32 @@ public class Question {
 	public String toJSON() {
 		StringBuilder json = new StringBuilder();
 		
-		json.append("{id:");
+		json.append("{\"id\":");
 		json.append(this.id);
-		json.append(",text:");
+		json.append(",\"text\":\"");
 		json.append(this.text);
-		json.append(",answers:[");
+		json.append("\",\"answers\":[");
 		for (int i = 0; i < this.answers.size(); i++) {
-			Answer a = this.answers.get(i);
-			json.append("{id:");
-			json.append(a.getId());
-			json.append(",text:");
-			json.append(a.getText());
-			json.append(",correct:");
-			json.append(a.isCorrect());
-			json.append('}');
-			if (i != this.answers.size() + 1) {
+			if (i > 0) {
 				json.append(',');
 			}
+			Answer a = this.answers.get(i);
+			json.append("{\"id\":");
+			json.append(a.getId());
+			json.append(",\"text\":\"");
+			json.append(a.getText());
+			json.append("\",\"correct\":");
+			json.append(a.isCorrect());
+			json.append("}");
 		}
-		json.append("],categories:[");
+		json.append("],\"categories\":[");
 		int i = 0;
 		for (String category : this.categories) {
-			json.append(category);
-			i++;
-			if (i < this.categories.size()) {
+			if (i > 0) {
 				json.append(',');
 			}
+			json.append('"' + category + '"');
+			i++;
 		}
 		json.append(']');
 		json.append('}');

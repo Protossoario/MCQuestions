@@ -256,4 +256,49 @@ public class QuestionSQL {
 		closeConnection();
 		return rows == (q.getAnswers().size() + q.getCategories().size());
 	}
+	
+	public List<Question> findQuestionsWithTags(List<String> tags) {
+		List<Question> result = new ArrayList<Question>();
+		
+		if (tags.size() == 0) {
+			return result;
+		}
+		
+		if (! initConnection()) {
+			return result;
+		}
+		
+		StringBuilder regex = new StringBuilder();
+		regex.append('\"');
+		int i = 0;
+		for (String t : tags) {
+			if (i > 0) {
+				regex.append('|');
+			}
+			
+			regex.append(t);
+			i++;
+		}
+		regex.append('\"');
+				
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM question WHERE id_question IN (SELECT question_id_question FROM question_category WHERE LOWER(name) REGEXP " + regex.toString() + ")");
+			
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				int id = rs.getInt(1);
+				String text = rs.getString(2);
+				List<Answer> answers = getAnswersWithQuestionId(id);
+				Set<String> categories = getCategoriesWithQuestionId(id);
+								
+				result.add(new Question(id, text, answers, categories));
+			}
+		} catch (SQLException e) {
+			System.out.println("Search with tags failed. Make sure the database is running and the schema mcquestions exists.");
+			e.printStackTrace();
+		}
+		
+		closeConnection();
+		return result;
+	}
 }

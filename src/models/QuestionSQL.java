@@ -200,4 +200,60 @@ public class QuestionSQL {
 		closeConnection();
 		return rows == (1 + q.getAnswers().size() + q.getCategories().size());
 	}
+	
+	public boolean updateQuestion(Question q) {
+		if (q.getId() == -1) {
+			return false;
+		}
+		
+		if (! initConnection()) {
+			return false;
+		}
+		int rows = 0;
+		try {
+			boolean autocommit = conn.getAutoCommit();
+			conn.setAutoCommit(false);
+			
+			PreparedStatement ps = conn.prepareStatement("UPDATE question SET text = ? WHERE id_question = ?");
+			ps.setString(1, q.getText());
+			ps.setInt(2, q.getId());
+			
+			ps.executeUpdate();
+			
+			ps = conn.prepareStatement("DELETE FROM answer WHERE question_id_question = ?");
+			ps.setInt(1, q.getId());
+			
+			ps.executeUpdate();
+			
+			ps = conn.prepareStatement("DELETE FROM question_category WHERE question_id_question = ?");
+			ps.setInt(1, q.getId());
+			
+			ps.executeUpdate();
+			
+			ps = conn.prepareStatement("INSERT INTO question_category (name, question_id_question) VALUES (?, ?)");
+			ps.setInt(2, q.getId());
+			for (String c : q.getCategories()) {
+				ps.setString(1, c);
+				rows += ps.executeUpdate();
+			}
+			
+			ps = conn.prepareStatement("INSERT INTO answer (question_id_question, text, correct) VALUES (?, ?, ?)");
+			ps.setInt(1, q.getId());
+			for (Answer a : q.getAnswers()) {
+				ps.setString(2, a.getText());
+				ps.setBoolean(3, a.isCorrect());
+				rows += ps.executeUpdate();
+			}
+			
+			conn.commit();
+			conn.setAutoCommit(autocommit);
+		} catch (SQLException e) {
+			System.out.println("Could not update question in the database.");
+			e.printStackTrace();
+			return false;
+		}
+		
+		closeConnection();
+		return rows == (q.getAnswers().size() + q.getCategories().size());
+	}
 }

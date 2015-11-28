@@ -26,7 +26,7 @@
 					<div class="panel-heading">
 						<h5>
 							Question ID #${ question.getId() }
-							<span class="pull-right"><a href="#"><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a></span>
+							<span class="pull-right"><a href="/MCQuestions/editQuestion/${ question.getId() }"><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a></span>
 						</h5>
 					</div>
 					<div class="panel-body">

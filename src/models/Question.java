@@ -50,6 +50,17 @@ public class Question {
 		this.categories = categories;
 	}
 	
+	public String getCategoriesAsString() {
+		StringBuilder result = new StringBuilder();
+		for (String c : this.categories) {
+			if (result.length() > 0) {
+				result.append(", ");
+			}
+			result.append(c);
+		}
+		return result.toString();
+	}
+	
 	public String toJSON() {
 		StringBuilder json = new StringBuilder();
 		

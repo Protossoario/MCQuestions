@@ -5,13 +5,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="js/jquery-ui-1.11.4.autocomplete/jquery-ui.min.css" type="text/css" />
+<link rel="stylesheet" href="http://localhost:8080/MCQuestions/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="http://localhost:8080/MCQuestions/js/jquery-ui-1.11.4.autocomplete/jquery-ui.min.css" type="text/css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="js/jquery-ui-1.11.4.autocomplete/jquery-ui.min.js"></script>
+<script src="http://localhost:8080/MCQuestions/js/jquery-ui-1.11.4.autocomplete/jquery-ui.min.js"></script>
 <%
 StringBuffer categoriesArray = new StringBuffer();
-List<String> categories = (List<String>) request.getAttribute("categories");
+List<String> categories = (List<String>) request.getAttribute("categoriesList");
 for (String c : categories) {
 	if (categoriesArray.length() > 0) {
 		categoriesArray.append(',');
@@ -120,7 +120,7 @@ div.input-group-answer:not(:first-child) {
 	<div class="container">
 		<c:if test="${ requestScope.success }">
 			<div class="alert alert-success" role="alert">
-				<strong>Success!</strong> A new question has been added to the database.
+				<strong>Success!</strong> ${ requestScope.message }
 			</div>
 		</c:if>
 		<c:if test="${ not empty requestScope.success && not requestScope.success }">
@@ -132,7 +132,7 @@ div.input-group-answer:not(:first-child) {
 			<div class="form-group">
 				<label for="questionText" class="col-sm-2 control-label">Question Text:</label>
 				<div class="col-sm-10 input-group">
-					<input class="form-control" type="text" name="questionText" id="questionText" value="${ param.questionText }" placeholder="Type the question text as it should appear to students" />
+					<input class="form-control" type="text" name="questionText" id="questionText" value="${ param.questionText ? param.questionText : requestScope.questionText }" placeholder="Type the question text as it should appear to students" />
 				</div>
 			</div>
 			<div class="form-group">
@@ -170,7 +170,7 @@ div.input-group-answer:not(:first-child) {
 			<div class="form-group">
 				<label for="categories" class="col-sm-2 control-label">Categories:</label>
 				<div class="col-sm-10 input-group">
-					<input class="form-control" type="text" name="categories" id="categories" value="${ param.categories }" placeholder="Type the categories separated by commas" />
+					<input class="form-control" type="text" name="categories" id="categories" value="${ param.categories ? param.categories : requestScope.categories }" placeholder="Type the categories separated by commas" />
 				</div>
 			</div>
 			<hr class="col-sm-10 col-sm-offset-2">

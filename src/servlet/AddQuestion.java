@@ -40,7 +40,7 @@ public class AddQuestion extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<String> categories = sql.getAllCategories();
-		request.setAttribute("categories", categories);
+		request.setAttribute("categoriesList", categories);
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/questionForm.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -71,6 +71,7 @@ public class AddQuestion extends HttpServlet {
 		if (q.validate()) {
 			if (this.sql.insertQuestion(q)) {
 				request.setAttribute("success", true);
+				request.setAttribute("message", "A new question has been added to the database.");
 			} else {
 				request.setAttribute("success", false);
 				request.setAttribute("message", "Unfortunately, the question could not be saved to the database. Please, try again.");

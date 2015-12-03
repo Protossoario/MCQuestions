@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -92,8 +92,14 @@ public class QuestionsResource {
 	}
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void submitJSON(Question q) {
-		
+	@Path("/find")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response findQuestionsWithIds(@FormParam("ids") List<Integer> ids) {
+		System.out.println("Questions.find(" + ids + ")");
+		QuestionSQL sql = new QuestionSQL();
+		return Response.ok(questionListToJSON(sql.findQuestionsWithIds(ids)))
+				.header("Access-Control-Allow-Origin", "*")
+				.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+				.allow("OPTIONS").build();
 	}
 }

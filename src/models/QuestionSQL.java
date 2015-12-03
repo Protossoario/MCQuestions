@@ -301,4 +301,44 @@ public class QuestionSQL {
 		closeConnection();
 		return result;
 	}
+	
+	public List<Question> findQuestionsWithIds(List<Integer> ids) {
+		List<Question> result = new ArrayList<Question>();
+		
+		if (ids.size() == 0) {
+			return result;
+		}
+		
+		if (!initConnection()) {
+			return result;
+		}
+		
+		StringBuilder idsString = new StringBuilder();
+		for (int id : ids) {
+			if (idsString.length() > 0) {
+				idsString.append(',');
+			}
+			idsString.append(id);
+		}
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM question WHERE id_question IN (" + idsString.toString() + ")");
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				int id = rs.getInt(1);
+				String text = rs.getString(2);
+				List<Answer> answers = getAnswersWithQuestionId(id);
+				Set<String> categories = getCategoriesWithQuestionId(id);
+								
+				result.add(new Question(id, text, answers, categories));
+			}
+		} catch (SQLException e) {
+			System.out.println("Failed to find questions. Make sure the database is running and the schema mcquestions exists.");
+			e.printStackTrace();
+		}
+		
+		closeConnection();
+		
+		return result;
+	}
 }

@@ -81,7 +81,9 @@ public class AddQuestion extends HttpServlet {
 			request.setAttribute("message", "Sorry, please make sure all answers and the question text are <strong>not empty</strong>, and that there's <strong>at least one right answer.</strong>");
 		}
 		
+		request.setAttribute("questionText", q.getText());
 		request.setAttribute("answers", answers);
+		request.setAttribute("categories", q.getCategoriesAsString());
 		
 		doGet(request, response);
 	}

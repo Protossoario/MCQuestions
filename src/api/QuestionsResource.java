@@ -95,7 +95,6 @@ public class QuestionsResource {
 	@Path("/find")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findQuestionsWithIds(@FormParam("ids") List<Integer> ids) {
-		System.out.println("Questions.find(" + ids + ")");
 		QuestionSQL sql = new QuestionSQL();
 		return Response.ok(questionListToJSON(sql.findQuestionsWithIds(ids)))
 				.header("Access-Control-Allow-Origin", "*")

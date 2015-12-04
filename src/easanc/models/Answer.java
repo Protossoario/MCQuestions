@@ -1,4 +1,4 @@
-package models;
+package easanc.models;
 
 public class Answer {
 	private int id;

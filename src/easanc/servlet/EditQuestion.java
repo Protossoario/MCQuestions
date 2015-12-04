@@ -1,4 +1,4 @@
-package servlet;
+package easanc.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.Answer;
-import models.Question;
-import models.QuestionSQL;
+import easanc.models.Answer;
+import easanc.models.Question;
+import easanc.models.QuestionSQL;
 
 /**
  * Servlet implementation class EditQuestion

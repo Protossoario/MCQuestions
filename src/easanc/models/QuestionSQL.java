@@ -1,4 +1,4 @@
-package models;
+package easanc.models;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,7 +29,7 @@ public class QuestionSQL {
 		}
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mcquestions", "root", "");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mcquestions_easanc", "root", "");
 		} catch (ClassNotFoundException e) {
 			System.out.println("MySQL JDBC drivers not properly configured! Verify that the .jar file is in the build path for this project.");
 			e.printStackTrace();

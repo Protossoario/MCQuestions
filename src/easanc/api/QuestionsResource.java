@@ -1,4 +1,4 @@
-package api;
+package easanc.api;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,8 +14,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import models.Question;
-import models.QuestionSQL;
+import easanc.models.Question;
+import easanc.models.QuestionSQL;
 
 @Path("/questions")
 public class QuestionsResource {

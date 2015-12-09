@@ -5,8 +5,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link rel="stylesheet" href="http://localhost:8080/MCQuestions/css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="http://localhost:8080/MCQuestions/js/jquery-ui-1.11.4.autocomplete/jquery-ui.min.css" type="text/css" />
+<link rel="stylesheet" href="http://localhost:8080/MCQuestions_easanc/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="http://localhost:8080/MCQuestions_easanc/js/jquery-ui-1.11.4.autocomplete/jquery-ui.min.css" type="text/css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="http://localhost:8080/MCQuestions/js/jquery-ui-1.11.4.autocomplete/jquery-ui.min.js"></script>
 <%
@@ -114,7 +114,7 @@ div.input-group-answer:not(:first-child) {
 	<div class="page-header">
 		<h3>
 			<i class="glyphicon glyphicon-th-list"></i>&nbsp;Add a new question
-			<span class="pull-right small"><a href="/MCQuestions/questions"><i class="glyphicon glyphicon-chevron-left"></i>&nbsp;Question list</a></span>
+			<span class="pull-right small"><a href="/MCQuestions_easanc/questions"><i class="glyphicon glyphicon-chevron-left"></i>&nbsp;Question list</a></span>
 		</h3>
 	</div>
 	<div class="container">

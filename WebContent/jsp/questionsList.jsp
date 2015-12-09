@@ -13,7 +13,7 @@
 	<div class="page-header">
 		<h3>
 			<i class="glyphicon glyphicon-th-list"></i>&nbsp;List of Questions
-			<span class="pull-right small"><a href="/MCQuestions/addQuestion"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add new question</a></span>
+			<span class="pull-right small"><a href="/MCQuestions_easanc/addQuestion"><i class="glyphicon glyphicon-plus"></i>&nbsp;Add new question</a></span>
 		</h3>
 	</div>
 	<div class="container">
@@ -26,7 +26,7 @@
 					<div class="panel-heading">
 						<h5>
 							Question ID #${ question.getId() }
-							<span class="pull-right"><a href="/MCQuestions/editQuestion/${ question.getId() }"><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a></span>
+							<span class="pull-right"><a href="/MCQuestions_easanc/editQuestion/${ question.getId() }"><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit</a></span>
 						</h5>
 					</div>
 					<div class="panel-body">
